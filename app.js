@@ -1,5 +1,7 @@
 require("express-async-errors");
 require("dotenv").config();
+const NotFoundMiddleware = require("./middleware/NotFoundMiddleware")
+const ErrorHandlerMiddleware = require("./middleware/ErrorHandlerMiddleware")
 
 const connectDB = require("./db/connect");
 
@@ -10,8 +12,14 @@ const { append } = require("express/lib/response");
 const app = express();
 
 //middleware
-
 app.use(express.json());
+
+app.get("/", (req,res)=> {
+    res.send("Hello")
+})
+
+app.use(ErrorHandlerMiddleware)
+app.use(NotFoundMiddleware)
 
 //server
 
