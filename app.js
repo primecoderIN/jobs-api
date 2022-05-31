@@ -21,9 +21,10 @@ app.use(NotFoundMiddleware)
 //server
 
 const port = process.env.PORT || 3000;
-
+const URI = process.env.MONGO_URI;
 const start = async () => {
   try {
+    await connectDB(URI)
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
