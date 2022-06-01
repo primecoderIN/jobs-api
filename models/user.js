@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please provide a name."],
     minlength: 3,
     maxlength: 50,
+    trim: true,
   },
   email: {
     type: String,
@@ -17,8 +18,10 @@ const UserSchema = new mongoose.Schema({
       "Please enter a valid email address.",
     ],
     unique: true,
+    trim: true,
   },
   password: {
+    trim: true,
     type: String,
     required: [true, "Please provide a password."],
     minlength: 6,
@@ -33,13 +36,20 @@ UserSchema.pre("save", async function (next) {
   next(); //Even if we do not call next it will work
 });
 
-
-
 UserSchema.statics.createJWT = function () {
-  const token = jwt.sign({ UserID: this._id, name: this.name }, process.env.JWT_SECRET, {
-    expiresIn: process.env.EXPIRES_IN,
-  });
+  const token = jwt.sign(
+    { UserID: this._id, name: this.name },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.EXPIRES_IN,
+    }
+  );
   return token;
+};
+
+UserSchema.statics.comparePassword = function (enteredPassword, dbPassword) {
+  const isMatch = bcrypt.compare(enteredPassword, dbPassword);
+  return isMatch;
 };
 
 module.exports = mongoose.model("User", UserSchema);
