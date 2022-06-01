@@ -33,10 +33,13 @@ UserSchema.pre("save", async function (next) {
   next(); //Even if we do not call next it will work
 });
 
-UserSchema.methods.createToken = function () {
-  return jwt.sign({ UserID: this._id, name: this.name }, "JwtSecret", {
+
+
+UserSchema.statics.createJWT = function () {
+  const token = jwt.sign({ UserID: this._id, name: this.name }, "JwtSecret", {
     expiresIn: "10d",
   });
+  return token;
 };
 
 module.exports = mongoose.model("User", UserSchema);
