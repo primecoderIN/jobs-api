@@ -37,7 +37,7 @@ UserSchema.pre("save", async function (next) {
 
 UserSchema.statics.createJWT = function () {
   const token = jwt.sign({ UserID: this._id, name: this.name }, process.env.JWT_SECRET, {
-    expiresIn: "10d",
+    expiresIn: process.env.EXPIRES_IN,
   });
   return token;
 };
