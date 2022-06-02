@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const NotFoundMiddleware = require("./middleware/NotFoundMiddleware")
 const ErrorHandlerMiddleware = require("./middleware/ErrorHandlerMiddleware")
+const AuthorizeUser = require("./middleware/authenticate")
 const connectDB = require("./db/connect");
 
 //express app
@@ -13,7 +14,7 @@ const JobsRoute = require("./routes/jobs")
 //middleware
 app.use(express.json());
 app.use("/api/v1/auth", AuthRoute)
-app.use("/api/v1/jobs",JobsRoute)
+app.use("/api/v1/jobs", AuthorizeUser,JobsRoute)
 
 app.use(ErrorHandlerMiddleware)
 app.use(NotFoundMiddleware)

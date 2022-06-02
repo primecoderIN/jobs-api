@@ -19,11 +19,12 @@ const register = async (req, res) => {
   //   const user = await User.create({ ...tempUser });
 
   //Generating token
-  const user = await User.create({ ...req.body });
+  const { name, email } = await User.create({ ...req.body });
   //const token = jwt.sign({UserID: user._id, user: user.name},"jwtsecret", {expiresIn:"10d"}) General way
+
   res
     .status(StatusCodes.CREATED)
-    .json({ User: user.name, Token: User.createJWT() });
+    .json({ User: name, Token: User.createJWT(email, name) });
 };
 
 const login = async (req, res) => {
@@ -43,9 +44,13 @@ const login = async (req, res) => {
   if (!isPasswordMatched) {
     throw new BadRequest("Please provide valid password.");
   }
+
   res
     .status(StatusCodes.OK)
-    .json({ name: user[0].name, Token: User.createJWT() });
+    .json({
+      name: user[0].name,
+      Token: User.createJWT(user[0].email, user[0].name),
+    });
 };
 
 module.exports = {

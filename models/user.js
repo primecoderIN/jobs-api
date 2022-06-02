@@ -36,14 +36,10 @@ UserSchema.pre("save", async function (next) {
   next(); //Even if we do not call next it will work
 });
 
-UserSchema.statics.createJWT = function () {
-  const token = jwt.sign(
-    { UserID: this._id, name: this.name },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: process.env.EXPIRES_IN,
-    }
-  );
+UserSchema.statics.createJWT = function (email, name) {
+  const token = jwt.sign({ email, name }, process.env.JWT_SECRET, {
+    expiresIn: process.env.EXPIRES_IN,
+  });
   return token;
 };
 
