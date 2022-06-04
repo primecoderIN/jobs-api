@@ -38,7 +38,7 @@ const login = async (req, res) => {
     throw new BadRequest("Please provide valid password.");
   }
   const token = jwt.sign(
-    { UserID: user._id, name: user.name },
+    { UserID: user[0]._id, name: user[0].name },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.EXPIRES_IN,
