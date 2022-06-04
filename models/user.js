@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -28,24 +26,5 @@ const UserSchema = new mongoose.Schema({
     // maxlength: 12, Removed because hashed passwords does have longer characters
   },
 });
-
-//More clean approach to hash the password before saving it in database
-UserSchema.pre("save", async function (next) {
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next(); //Even if we do not call next it will work
-});
-
-UserSchema.statics.createJWT = function (email, name) {
-  const token = jwt.sign({ email, name }, process.env.JWT_SECRET, {
-    expiresIn: process.env.EXPIRES_IN,
-  });
-  return token;
-};
-
-UserSchema.statics.comparePassword = function (enteredPassword, dbPassword) {
-  const isMatch = bcrypt.compare(enteredPassword, dbPassword);
-  return isMatch;
-};
 
 module.exports = mongoose.model("User", UserSchema);
