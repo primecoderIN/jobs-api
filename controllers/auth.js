@@ -23,7 +23,6 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    console.log("First");
     throw new BadRequest("Please provide username and password.");
   }
   const user = await User.find({ email });
