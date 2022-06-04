@@ -33,7 +33,6 @@ const login = async (req, res) => {
   }
 
   const isPasswordMatched = await bcrypt.compare(password, user[0].password);
-  console.log("Matched", isPasswordMatched);
   if (!isPasswordMatched) {
     throw new BadRequest("Please provide valid password.");
   }
