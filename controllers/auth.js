@@ -6,6 +6,9 @@ const { BadRequest } = require("../errors");
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
+  if(!name || !email || !password){
+    throw new BadRequest("All fields are mandatory.");
+  }
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const tempUser = { name, email, password: hashedPassword };
