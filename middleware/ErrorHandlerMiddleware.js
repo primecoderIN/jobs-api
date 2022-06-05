@@ -15,6 +15,10 @@ const ErrorHandlerMiddleware = (err, req, res, next) => {
     customError.message= `${err.keyValue.email} is already in use, please try registering with a new email.`
     customError.statusCode=400; //Cuz it is a bad request 
   }
+  if(err.name==="CastError"){
+    customError.message= `No jobs found with user id ${err.value}`
+    customError.statusCode=404
+  }
   return res
     .status(customError.statusCode)
     .json({ message: customError.message});
