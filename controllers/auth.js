@@ -24,6 +24,7 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
+
   const { email, password } = req.body;
   if (!email || !password) {
     throw new BadRequest("Please provide username and password.");
@@ -37,7 +38,7 @@ const login = async (req, res) => {
   if (!isPasswordMatched) {
     throw new BadRequest("Please provide valid password.");
   }
-  x;
+  
   const token = jwt.sign(
     { UserID: user[0]._id, name: user[0].name, isAdmin: user[0].isAdmin },
     process.env.JWT_SECRET,
