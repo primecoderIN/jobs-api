@@ -33,7 +33,7 @@ const ProductRoute = require("./routes/product")
 app.use(express.json());
 app.use("/api/v1/auth", AuthRoute);
 app.use("/api/v1/jobs", AuthorizeUser, JobsRoute);
-app.use("/api/v1/products", AuthorizeUser, ProductRoute);
+app.use("/api/v1/orders", AuthorizeUser, ProductRoute);
 
 app.use(ErrorHandlerMiddleware);
 app.use(NotFoundMiddleware);

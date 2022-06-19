@@ -1,12 +1,19 @@
 const Product = require("../models/product");
 const { StatusCodes } = require("http-status-codes");
 
-const getAllProducts = async (req, res) => {
-  const products = await Product.find({ createdBy: req.user.UserID }).sort(
+const getOrders = async (req, res) => {
+  const orders = await Product.find({ createdBy: req.user.UserID }).sort(
     "createdAt"
   );
-  res.status(StatusCodes.OK).json({ products, TotalRecords: products.length });
+  res.status(StatusCodes.OK).json({ orders, TotalRecords: orders.length });
 };
+
+const getAllOrders = async (req, res) => {
+    const orders = await Product.find({  }).sort(
+      "createdAt"
+    );
+    res.status(StatusCodes.OK).json({ orders, TotalRecords: orders.length });
+  };
 
 const createProduct = async (req, res) => {
   req.body.createdBy = req.user.UserID;
@@ -15,6 +22,7 @@ const createProduct = async (req, res) => {
 };
 
 module.exports = {
-  getAllProducts,
+  getOrders,
   createProduct,
+  getAllOrders
 };
