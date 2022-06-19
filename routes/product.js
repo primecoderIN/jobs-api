@@ -7,7 +7,8 @@ const {
   getOrders
 } = require("../controllers/product");
 
-router.route("/").get(getAllOrders).post(createProduct).get(getOrders)
+router.route("/").post(createProduct).get(getOrders)
+router.route("/getAll").get(getAllOrders)
 
 
 
