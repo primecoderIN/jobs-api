@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const { StatusCodes } = require("http-status-codes");
+const { UnauthorizedRequest} = require("../errors");
 
 const getOrders = async (req, res) => {
   const orders = await Product.find({ createdBy: req.user.UserID }).sort(
@@ -9,6 +10,7 @@ const getOrders = async (req, res) => {
 };
 
 const getAllOrders = async (req, res) => {
+     
     const orders = await Product.find({  }).sort(
       "createdAt"
     );

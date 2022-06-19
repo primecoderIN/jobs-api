@@ -6,7 +6,7 @@ const { BadRequest } = require("../errors");
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
-  if(!name || !email || !password){
+  if (!name || !email || !password) {
     throw new BadRequest("All fields are mandatory.");
   }
   const salt = await bcrypt.genSalt(10);
@@ -14,7 +14,7 @@ const register = async (req, res) => {
   const tempUser = { name, email, password: hashedPassword };
   const user = await User.create({ ...tempUser });
   const token = jwt.sign(
-    { UserID: user._id, name: user.name },
+    { UserID: user._id, name: user.name, isAdmin: user.isAdmin },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.EXPIRES_IN,
@@ -29,7 +29,6 @@ const login = async (req, res) => {
     throw new BadRequest("Please provide username and password.");
   }
   const user = await User.find({ email });
-
   if (user.length === 0) {
     throw new BadRequest("Please provide valid email.");
   }
@@ -38,8 +37,9 @@ const login = async (req, res) => {
   if (!isPasswordMatched) {
     throw new BadRequest("Please provide valid password.");
   }
+  x;
   const token = jwt.sign(
-    { UserID: user[0]._id, name: user[0].name },
+    { UserID: user[0]._id, name: user[0].name, isAdmin: user[0].isAdmin },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.EXPIRES_IN,

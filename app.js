@@ -3,7 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const NotFoundMiddleware = require("./middleware/NotFoundMiddleware");
 const ErrorHandlerMiddleware = require("./middleware/ErrorHandlerMiddleware");
-const AuthorizeUser = require("./middleware/authenticate");
+const VerifyUser = require("./middleware/VerifyUser");
+const VerifyAdmin = require("./middleware/VerifyAdmin");
 const connectDB = require("./db/connect");
 //Extra security packages 
 const helmet = require("helmet");
@@ -32,8 +33,9 @@ const ProductRoute = require("./routes/product")
 //middleware
 app.use(express.json());
 app.use("/api/v1/auth", AuthRoute);
-app.use("/api/v1/jobs", AuthorizeUser, JobsRoute);
-app.use("/api/v1/orders", AuthorizeUser, ProductRoute);
+app.use("/api/v1/jobs", VerifyUser, JobsRoute);
+app.use("/api/v1/orders", VerifyUser, ProductRoute);
+app.use("/api/v1/get", VerifyAdmin, ProductRoute);
 
 app.use(ErrorHandlerMiddleware);
 app.use(NotFoundMiddleware);

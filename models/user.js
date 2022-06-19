@@ -25,6 +25,10 @@ const UserSchema = new mongoose.Schema({
     minlength: 6,
     // maxlength: 12, Removed because hashed passwords does have longer characters
   },
+  isAdmin : {
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model("User", UserSchema);
