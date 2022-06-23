@@ -17,6 +17,9 @@ const ProductSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Please provide an user."],
     },
+    userName: {
+      type: String
+    }
   },
   { timestamps: true }
 );
