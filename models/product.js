@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const ProductSchema = new mongoose.Schema(
   {
+    orderDescription: {
+        type: String,
+        required: true
+    },
     itemTypes: {
       type: Object,
       required: true,
@@ -12,12 +16,12 @@ const ProductSchema = new mongoose.Schema(
         required: [true, "Please provide at least one product."],
       },
     ],
-    createdBy: {
+    UserID: {
       type: mongoose.Types.ObjectId,
       ref: "User",
       required: [true, "Please provide an user."],
     },
-    userName: {
+    createdBy: {
       type: String
     }
   },
