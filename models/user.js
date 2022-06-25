@@ -25,9 +25,10 @@ const UserSchema = new mongoose.Schema({
     minlength: 6,
     // maxlength: 12, Removed because hashed passwords does have longer characters
   },
-  isAdmin : {
-    type: Boolean,
-    default: false
+  Role : {
+    type: String,
+    enum: ["Admin","User"],
+    default: "User"
   }
 });
 

@@ -9,9 +9,9 @@ const VerifyUser = (req, res, next) => {
   }
   const token = authHeader.split(" ")[1]; //if header is present then get the token to verify it
   try {
-    const { UserID, name, isAdmin } = jwt.verify(token, process.env.JWT_SECRET);
+    const { UserID, name, Role } = jwt.verify(token, process.env.JWT_SECRET);
     //Attach the user to the job route
-    if (isAdmin) {
+    if (Role==="Admin") {
       req.user = { UserID, name };
       next();
     } else {

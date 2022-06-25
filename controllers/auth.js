@@ -14,7 +14,7 @@ const register = async (req, res) => {
   const tempUser = { name, email, password: hashedPassword };
   const user = await User.create({ ...tempUser });
   const token = jwt.sign(
-    { UserID: user._id, name: user.name, isAdmin: user.isAdmin },
+    { UserID: user._id, name: user.name, Role: user.Role },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.EXPIRES_IN,
@@ -24,7 +24,6 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-
   const { email, password } = req.body;
   if (!email || !password) {
     throw new BadRequest("Please provide username and password.");
@@ -38,9 +37,9 @@ const login = async (req, res) => {
   if (!isPasswordMatched) {
     throw new BadRequest("Please provide valid password.");
   }
-  
+
   const token = jwt.sign(
-    { UserID: user[0]._id, name: user[0].name, isAdmin: user[0].isAdmin },
+    { UserID: user[0]._id, name: user[0].name, Role: user[0].Role },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.EXPIRES_IN,
