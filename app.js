@@ -28,14 +28,13 @@ app.use(xss())
 //routes
 const AuthRoute = require("./routes/auth");
 const JobsRoute = require("./routes/jobs");
-const ProductRoute = require("./routes/product")
+
 
 //middleware
 app.use(express.json());
 app.use("/api/v1/auth", AuthRoute);
 app.use("/api/v1/jobs", VerifyUser, JobsRoute);
-app.use("/api/v1/orders", VerifyUser, ProductRoute);
-app.use("/api/v1/get", VerifyAdmin, ProductRoute);
+
 
 app.use(ErrorHandlerMiddleware);
 app.use(NotFoundMiddleware);
